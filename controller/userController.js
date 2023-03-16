@@ -116,7 +116,7 @@ var apis={
              const newUser =new User({
                 name:"hasan",
                 email:"aaaa@gmail.com",
-                phone:"0797981860",
+                phone:"0797981861",
                 password:"nnkl",
                 birthdate:"1222",
                 country:"sy",
