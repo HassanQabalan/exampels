@@ -2,6 +2,10 @@ require('dotenv').config();
 const User = require('../model/Users')
 const bcrypt=require('bcryptjs');
 const jwt= require('jsonwebtoken');
+const querystring = require('querystring');
+const cloudinary=require('../helpers/cloudinary');
+const fs = require('fs');
+
 
 var apis={
     register: async(req,res)=>{
@@ -116,7 +120,7 @@ var apis={
              const newUser =new User({
                 name:"hasan",
                 email:"aaaa@gmail.com",
-                phone:"0797981861",
+                phone:"0797981869",
                 password:"nnkl",
                 birthdate:"1222",
                 country:"sy",
@@ -129,6 +133,26 @@ var apis={
         }catch(error){
             res.json({success:false,msg:error.message})
         }
+    },
+    updateProfileImage:async(req,res)=>{
+        try {
+            const userId = req.userId;
+            const user=await User.findById(userId)
+            const path=req.file.path;
+            if(user.profileImage.id)
+            await cloudinary.uploader.destroy(user.profileImage.id)
+            const newImage= await cloudinary.uploader.upload(path, { folder: 'famous', tag:'uploads' });
+            const updatedUser = await User.findByIdAndUpdate(userId)
+            .set({ profileImage: { image: newImage.url,id: newImage.public_id }}).exec();
+              if (updatedUser) {
+                fs.unlinkSync(path);
+                res.json({ success: true, image: newImage.url });
+              } else {
+                res.json({ success: false, msg: 'Failed' });
+              }
+          } catch (error) {
+            res.json({ success: false, msg: error.message });
+          }
     },
 
 

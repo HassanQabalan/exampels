@@ -27,7 +27,10 @@ const UserSchema =  mongoose.Schema({
         type:String,
         
     },
-    profileImage: String,
+    profileImage:{
+        image:String,
+        id:String
+    },
     active:{
         type:Boolean,
         default:false
