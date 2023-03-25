@@ -138,10 +138,10 @@ var apis={
     updateProfileImage:async(req,res)=>{
         try {
             const userId = req.userId;
-            const user=await User.findById(userId)
-            const path=req.file.path;
-            if(user.profileImage.id)
-            await cloudinary.uploader.destroy(user.profileImage.id)
+            // const user=await User.findById(userId)
+            // const path=req.file.path;
+            // if(user.profileImage.id)
+            // await cloudinary.uploader.destroy(user.profileImage.id)
             const newImage= await cloudinary.uploader.upload(path, { folder: 'famous', tag:'uploads' });
             const updatedUser = await User.findByIdAndUpdate(userId)
             .set({ profileImage: { image: newImage.url,id: newImage.public_id }}).exec();
