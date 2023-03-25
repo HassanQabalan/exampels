@@ -137,7 +137,7 @@ var apis={
     },
     updateProfileImage:async(req,res)=>{
         try {
-            const userId = req.userId;
+            const userId = '641f827d94c3776d5a6672a7';
             // const user=await User.findById(userId)
             // const path=req.file.path;
             // if(user.profileImage.id)
