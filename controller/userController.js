@@ -117,11 +117,15 @@ var apis={
             // else if(userbyphone){
             //    return res.json({success:false,msg:'This phone is already exists'})
             // }else{
+                
+            const newImage= await cloudinary.uploader.upload(path, { folder: 'famous', tag:'uploads' });
+           
              const newUser =new User({
                 name:"hasan",
                 email:"aaaa@gmail.com",
                 phone:"0797981868",
-    
+
+                
                 password:"nnkl",
                 birthdate:"1222",
                 country:"sy",
@@ -137,11 +141,11 @@ var apis={
     },
     updateProfileImage:async(req,res)=>{
         try {
-            const userId = "641f891a7c46ba9655972714";
+            const userId = "642206f79a1fe5b7b462569b";
             const user=await User.findById(userId)
             const path=req.file.path;
-            // if(user.profileImage.id)
-            // await cloudinary.uploader.destroy(user.profileImage.id)
+            if(user.profileImage.id)
+            await cloudinary.uploader.destroy(user.profileImage.id)
             const newImage= await cloudinary.uploader.upload(path, { folder: 'famous', tag:'uploads' });
             const updatedUser = await User.findByIdAndUpdate(userId)
             .set({ profileImage: { image: newImage.url,id: newImage.public_id }}).exec();
